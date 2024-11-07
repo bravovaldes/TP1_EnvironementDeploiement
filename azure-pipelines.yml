@@ -8,11 +8,33 @@ trigger:
 
 pool:  "default"
 
+variables:
+- name: CloudInitContent
+
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+        $cloudContent = Get-Content -Path  .\TP1_EnvironementDeploiement\Cloud-init.txt -Raw
+        Write-Host $CloudContent
+        $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
+        Write-Host $encodedContent
+        Write-Host "##vso[task.setvariable variable=CloudInitContent;]$encodedContent"
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    echo $(CloudInitContent)
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
+    subscriptionId: '2ca40756-e319-40dd-84a5-ca8148b8ed59'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'TP1_Deploiement'
+    location: 'Canada Central'
+    templateLocation: 'Linked artifact'
+    csmFile: '($Build.SourcesDirectory)\TP1_EnvironementDeploiement\azuredeploy.json'
+    csmParametersFile: '($Build.SourcesDirectory)\TP1_EnvironementDeploiement\azuredeploy.parameters.json'
+    overrideParameters: '-customData$(CloudInitContent) -adminPassword $(AdminPass)'
+    deploymentMode: 'Complete'
+
