@@ -34,14 +34,13 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.SourcesDirectory)\AzureKeyVaultManager\AzureKeyVaultManager\azuredeploy.json'
     csmParametersFile: '$(Build.SourcesDirectory)\AzureKeyVaultManager\AzureKeyVaultManager\azuredeploy.parameters.json'
-    overrideParameters: '-vaults_keyvaultenv_name keyvaultenvtest'
     deploymentMode: 'Incremental'
 
 - task: AzureKeyVault@2
   name: AzureKey
   inputs:
     azureSubscription: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
-    KeyVaultName: 'keyvaultenvtest'
+    KeyVaultName: 'keyvaultenv'
     SecretsFilter: 'AdminP'
     RunAsPreJob: false
 - script: |
