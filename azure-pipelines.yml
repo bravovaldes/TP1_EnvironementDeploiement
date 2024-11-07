@@ -21,28 +21,31 @@ steps:
         $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
         Write-Host $encodedContent
         Write-Host "##vso[task.setvariable variable=CloudInitContent;]$encodedContent"
-- task: AzureKeyVault@2
-  name: AzureKey
-  inputs:
-    azureSubscription: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
-    KeyVaultName: 'keyvaultenvironement'
-    SecretsFilter: 'AdminPassWord'
-    RunAsPreJob: false
-- script: |
-    echo $(CloudInitContent)
+
+
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
     subscriptionId: '2ca40756-e319-40dd-84a5-ca8148b8ed59'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'TP1_Deploiement'
+    resourceGroupName: 'tpKey'
     location: 'Canada Central'
     templateLocation: 'Linked artifact'
-    csmFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.json'
-    csmParametersFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
-    overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminPassWord)'
-    deploymentMode: 'Complete'
+    csmFile: '$(Build.SourcesDirectory)\AzureKeyVaultManager\AzureKeyVaultManager\azuredeploy.json'
+    csmParametersFile: '$(Build.SourcesDirectory)\AzureKeyVaultManager\AzureKeyVaultManager\azuredeploy.parameters.json'
+    overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminP)'
+    deploymentMode: 'Incremental'
+
+- task: AzureKeyVault@2
+  name: AzureKey
+  inputs:
+    azureSubscription: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
+    KeyVaultName: 'keyvaultenv'
+    SecretsFilter: 'AdminP'
+    RunAsPreJob: false
+- script: |
+    echo $(CloudInitContent)
     
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
@@ -55,6 +58,20 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.json'
     csmParametersFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
-    overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminPassWord)'
+    overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminP)'
+    deploymentMode: 'Validation'
+    
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
+    subscriptionId: '2ca40756-e319-40dd-84a5-ca8148b8ed59'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'TP1_Deploiement'
+    location: 'Canada Central'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.json'
+    csmParametersFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
+    overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminP)'
     deploymentMode: 'Incremental'
 
