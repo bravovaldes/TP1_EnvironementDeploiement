@@ -21,7 +21,13 @@ steps:
         $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
         Write-Host $encodedContent
         Write-Host "##vso[task.setvariable variable=CloudInitContent;]$encodedContent"
-
+- task: AzureKeyVault@2
+  name: AzureKey
+  inputs:
+    azureSubscription: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
+    KeyVaultName: 'keyvaultenvironement'
+    SecretsFilter: 'AdminPassWord'
+    RunAsPreJob: false
 - script: |
     echo $(CloudInitContent)
 - task: AzureResourceManagerTemplateDeployment@3
@@ -35,7 +41,7 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.json'
     csmParametersFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
-    overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AdminPass)'
+    overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminPassWord)'
     deploymentMode: 'Complete'
     
 - task: AzureResourceManagerTemplateDeployment@3
@@ -49,6 +55,6 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.json'
     csmParametersFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
-    overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AdminPass)'
+    overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminPassWord)'
     deploymentMode: 'Incremental'
 
