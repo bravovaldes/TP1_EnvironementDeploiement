@@ -16,7 +16,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-        $cloudContent = Get-Content -Path  .\Cloud-init.txt -Raw
+        $cloudContent = Get-Content -Path  .\AzureResourceGroupTP1\Cloud-init.txt -Raw
         Write-Host $CloudContent
         $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
         Write-Host $encodedContent
@@ -33,8 +33,8 @@ steps:
     resourceGroupName: 'TP1_Deploiement'
     location: 'Canada Central'
     templateLocation: 'Linked artifact'
-    csmFile: '($Build.SourcesDirectory)\TP1_EnvironementDeploiement\azuredeploy.json'
-    csmParametersFile: '($Build.SourcesDirectory)\TP1_EnvironementDeploiement\azuredeploy.parameters.json'
+    csmFile: '($Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.json'
+    csmParametersFile: '($Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
     overrideParameters: '-customData$(CloudInitContent) -adminPassword $(AdminPass)'
     deploymentMode: 'Complete'
 
