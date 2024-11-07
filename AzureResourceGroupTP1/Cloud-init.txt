@@ -28,7 +28,18 @@ write_files:
       var app = express()
       var os = require('os');
       app.get('/', function (req, res) {
-        res.send('Hello World from host ' + os.hostname() + '!')
+        res.send(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Bonjour Environement</title>
+          </head>
+          <body>
+            <h1>Bonjour VM ${os.hostname()}!</h1>
+            <p>Ceci est une simple page HTML servie par Node.js.</p>
+          </body>
+          </html>
+        `)
       })
       app.listen(3000, function () {
         console.log('Hello world app listening on port 3000!')
