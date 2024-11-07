@@ -16,7 +16,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-        $cloudContent = Get-Content -Path  .\TP1_EnvironementDeploiement\Cloud-init.txt -Raw
+        $cloudContent = Get-Content -Path  .\Cloud-init.txt -Raw
         Write-Host $CloudContent
         $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
         Write-Host $encodedContent
