@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "vaults_keyvaultenv_name": {
-            "defaultValue": "keyvaultenv",
+            "defaultValue": "keyvaultenvi",
             "type": "String"
         }
     },
