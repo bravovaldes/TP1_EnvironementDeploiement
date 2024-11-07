@@ -33,9 +33,22 @@ steps:
     resourceGroupName: 'TP1_Deploiement'
     location: 'Canada Central'
     templateLocation: 'Linked artifact'
-    csmFile: '($Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.json'
-    csmParametersFile: '($Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
+    csmFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.json'
+    csmParametersFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
     overrideParameters: '-customData$(CloudInitContent) -adminPassword $(AdminPass)'
     deploymentMode: 'Complete'
     
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
+    subscriptionId: '2ca40756-e319-40dd-84a5-ca8148b8ed59'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'TP1_Deploiement'
+    location: 'Canada Central'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.json'
+    csmParametersFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
+    overrideParameters: '-customData$(CloudInitContent) -adminPassword $(AdminPass)'
+    deploymentMode: 'Incremental'
 
