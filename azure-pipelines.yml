@@ -34,7 +34,7 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.SourcesDirectory)\AzureKeyVaultManager\AzureKeyVaultManager\azuredeploy.json'
     csmParametersFile: '$(Build.SourcesDirectory)\AzureKeyVaultManager\AzureKeyVaultManager\azuredeploy.parameters.json'
-    overrideParameters: '-vaults_keyvaultenv_name keyvaulten'
+    overrideParameters: '-vaults_keyvaultenv_name keyvaultennt'
     deploymentMode: 'Incremental'
 
 - task: AzureKeyVault@2
