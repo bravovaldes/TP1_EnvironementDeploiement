@@ -35,7 +35,7 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.json'
     csmParametersFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
-    overrideParameters: '-customData$(CloudInitContent) -adminPassword $(AdminPass)'
+    overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AdminPass)'
     deploymentMode: 'Complete'
     
 - task: AzureResourceManagerTemplateDeployment@3
