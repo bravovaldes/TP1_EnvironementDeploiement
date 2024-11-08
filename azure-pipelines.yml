@@ -38,7 +38,7 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.SourcesDirectory)\AzureKeyVaultManager\AzureKeyVaultManager\azuredeploy.json'
     csmParametersFile: '$(Build.SourcesDirectory)\AzureKeyVaultManager\AzureKeyVaultManager\azuredeploy.parameters.json'
-    overrideParameters: '-name TP1_Deploiement -secretName adminPass -secretValue $(adminPass)'
+    overrideParameters: '-name TPDeploiement -secretName adminPass -secretValue $(adminPass)'
     deploymentMode: 'Incremental'
     deploymentOutputs: 'KeyVaultDeployment'
 
