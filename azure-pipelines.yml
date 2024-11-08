@@ -8,8 +8,12 @@ trigger:
 
 pool:  "default"
 
+
 variables:
 - name: CloudInitContent
+
+  
+
 
 steps:
 - task: PowerShell@2
@@ -34,6 +38,7 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.SourcesDirectory)\AzureKeyVaultManager\AzureKeyVaultManager\azuredeploy.json'
     csmParametersFile: '$(Build.SourcesDirectory)\AzureKeyVaultManager\AzureKeyVaultManager\azuredeploy.parameters.json'
+    overrideParameters: '-name TP1_Deploiement -secretName adminPass -secretValue $(adminPass)'
     deploymentMode: 'Complete'
 
 - task: AzureKeyVault@2
