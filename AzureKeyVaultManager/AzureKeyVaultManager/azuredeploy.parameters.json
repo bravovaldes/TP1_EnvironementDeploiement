@@ -1,8 +1,55 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "vaults_keyvaultenv_name": {
+    "name": {
+      "value": "TP1"
+    },
+    "location": {
+      "value": "eastus"
+    },
+    "sku": {
+      "value": "Standard"
+    },
+    "accessPolicies": {
+      "value": []
+    },
+    "tenant": {
+      "value": "541348cc-ee3c-4b34-bed3-331ccf2bfeeb"
+    },
+    "enabledForDeployment": {
+      "value": true
+    },
+    "enabledForTemplateDeployment": {
+      "value": true
+    },
+    "enabledForDiskEncryption": {
+      "value": false
+    },
+    "enableRbacAuthorization": {
+      "value": true
+    },
+    "publicNetworkAccess": {
+      "value": "Enabled"
+    },
+    "enableSoftDelete": {
+      "value": true
+    },
+    "softDeleteRetentionInDays": {
+      "value": 7
+    },
+    "networkAcls": {
+      "value": {
+        "defaultAction": "allow",
+        "bypass": "AzureServices",
+        "ipRules": [],
+        "virtualNetworkRules": []
+      }
+    },
+    "secretName": {
+      "value": "AdminnP"
+    },
+    "secretValue": {
       "value": null
     }
   }
