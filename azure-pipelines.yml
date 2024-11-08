@@ -47,7 +47,7 @@ steps:
   inputs:
     azureSubscription: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
     KeyVaultName: 'keyvaultennv'
-    SecretsFilter: 'AdminP'
+    SecretsFilter: 'AdminPass'
     RunAsPreJob: false
 - script: |
     echo $(CloudInitContent)
