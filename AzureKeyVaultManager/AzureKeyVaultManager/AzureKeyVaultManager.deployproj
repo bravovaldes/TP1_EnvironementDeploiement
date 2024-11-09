@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<!-- Configuration du projet -->
+	<!-- Définit les configurations disponibles pour le projet : Debug et Release.
+       Chaque configuration est associée à la plateforme cible (ici, AnyCPU). -->
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|AnyCPU">
       <Configuration>Debug</Configuration>
@@ -10,6 +13,9 @@
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+
+	<!-- Propriétés globales -->
+	<!-- Contient des propriétés générales et globales, comme l'identifiant unique (GUID) du projet. -->
   <PropertyGroup Label="Globals">
     <ProjectGuid>841239fd-7ab0-40d0-aee1-86b5f4ccbf8a</ProjectGuid>
   </PropertyGroup>
@@ -22,6 +28,11 @@
   <!-- vertag<:>start tokens<:>maj.min -->
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
+	<!-- Contenu du projet -->
+	<!-- Définit les fichiers inclus dans le projet. Cela inclut :
+       - Fichiers JSON pour les templates Azure Resource Manager.
+       - Fichiers de script pour le déploiement.
+       - Fichiers spécifiques au projet (comme Deployment.targets). -->
   <ItemGroup>
     <Content Include="azuredeploy.json" />
     <Content Include="azuredeploy.parameters.json" />
@@ -30,5 +41,9 @@
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
   </ItemGroup>
+
+	<!-- Cible supplémentaire -->
+	<!-- Déclare une cible vide appelée "GetReferenceAssemblyPaths" pour étendre le comportement
+       ou référencer les assemblys nécessaires dans le futur. -->
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
