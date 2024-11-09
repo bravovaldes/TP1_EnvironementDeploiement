@@ -1,13 +1,25 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
+
+  // Paramètres
+  // Contient les paramètres pour configurer et personnaliser le déploiement.
   "parameters": {
+
+    // Localisation
+    // Définit la région Azure où les ressources seront déployées.
     "location": {
       "value": "canadacentral"
     },
+
+    // Type de disque OS
+    // Indique le type de stockage pour les disques système des VM, ici "StandardSSD_LRS".
     "osDiskType": {
       "value": "StandardSSD_LRS"
     },
+
+    // Préfixes d'adresses
+    // Définit les plages d'adresses IP pour le réseau virtuel (VNet).
     "addressPrefixes": {
       "value": [
         "10.0.0.0/16"
