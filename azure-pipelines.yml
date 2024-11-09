@@ -20,7 +20,7 @@ variables:
 
 
 steps:
-- task: PowerShell@2
+- task: PowerShell@2  # Étape 1 : Encodage du fichier Cloud-init
   inputs:
     targetType: 'inline'
     script: |
@@ -31,7 +31,7 @@ steps:
         Write-Host "##vso[task.setvariable variable=CloudInitContent;]$encodedContent"
 
 
-- task: AzureResourceManagerTemplateDeployment@3
+- task: AzureResourceManagerTemplateDeployment@3  # Étape 2 : Déploiement d'un Key Vault
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
@@ -46,17 +46,17 @@ steps:
     deploymentMode: 'Incremental'
     deploymentOutputs: 'KeyVaultDeployment'
 
-- task: AzureKeyVault@2
+- task: AzureKeyVault@2  # Étape 3 : Lecture des secrets du Key Vault
   name: AzureKey
   inputs:
     azureSubscription: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
     KeyVaultName: 'TPDeploiement'
     SecretsFilter: 'AdminPass'
     RunAsPreJob: false
-- script: |
+- script: |  # Étape 4 : Vérification du contenu encodé
     echo $(CloudInitContent)
     
-- task: AzureResourceManagerTemplateDeployment@3
+- task: AzureResourceManagerTemplateDeployment@3  # Étape 5 : Validation du déploiement ARM avec Cloud-init
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
@@ -70,7 +70,7 @@ steps:
     overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminPass)'
     deploymentMode: 'Validation'
     
-- task: AzureResourceManagerTemplateDeployment@3
+- task: AzureResourceManagerTemplateDeployment@3   # Étape 6 : Déploiement final avec Cloud-init et paramètres
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
