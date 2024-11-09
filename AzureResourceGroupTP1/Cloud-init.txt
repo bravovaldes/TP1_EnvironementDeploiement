@@ -1,10 +1,23 @@
 #cloud-config
+# Configuration générale
+# Indique que le système doit effectuer des mises à jour des paquets lors du déploiement.
 package_upgrade: true
+
+# Packages à installer
+# Liste les paquets à installer sur la machine, ici `nginx` pour le serveur web
+# et `nodejs`/`npm` pour exécuter des applications JavaScript côté serveur.
 packages:
   - nginx
   - nodejs
   - npm
+
+# Écriture de fichiers
+# Crée ou met à jour des fichiers spécifiques sur la machine.
 write_files:
+
+  # Configuration du serveur Nginx
+  # Définit un fichier de configuration Nginx pour rediriger les requêtes HTTP
+  # vers une application Node.js fonctionnant sur le port 3000.
   - owner: www-data:www-data
     path: /etc/nginx/sites-available/default
     defer: true
