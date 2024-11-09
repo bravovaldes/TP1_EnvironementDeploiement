@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<!-- Propriétés globales -->
+	<!-- Définit des propriétés générales comme la configuration (Debug/Release), la plateforme (AnyCPU),
+       les chemins de sortie des fichiers compilés, et d'autres comportements de construction. -->
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -16,6 +19,8 @@
     <StageArtifacts Condition=" '$(StageArtifacts)' == '' ">true</StageArtifacts>
   </PropertyGroup>
 
+	<!-- Propriétés supplémentaires -->
+	<!-- Gère les définitions d'éléments ou de capacités spécifiques au projet. -->
   <PropertyGroup>
     <DefineCommonItemSchemas>false</DefineCommonItemSchemas>
     <DefineCommonCapabilities>false</DefineCommonCapabilities>
@@ -27,6 +32,9 @@
     </ProjectCapabilities>
   </ProjectExtensions>
 
+	<!-- Définition des éléments globaux -->
+	<!-- Définit les règles de copie des fichiers (contenu ou autres), les propriétés des références de projet,
+       et les comportements associés. -->
   <ItemDefinitionGroup>
     <Content>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -40,6 +48,9 @@
     </ProjectReference>
   </ItemDefinitionGroup>
 
+	<!-- Cibles spécifiques -->
+	<!-- Définit les cibles principales à exécuter, comme la création de noms de ressources de manifeste
+       ou la gestion des artefacts de déploiement. -->
   <Target Name="CreateManifestResourceNames" />
 
   <PropertyGroup>
@@ -57,6 +68,8 @@
     <Copy SourceFiles="@(BuildProjectReferencesOutput)" DestinationFiles="$(ArtifactStagingDirectory)\$(MSBuildProjectName)\%(ProjectName)\%(RecursiveDir)%(FileName)%(Extension)" />
   </Target>
 
+	<!-- Contenu du projet -->
+	<!-- Récupère le contenu des fichiers du projet pour le staging. -->
   <Target Name="_GetDeploymentProjectContent">
     <MSBuild Projects="$(MSBuildProjectFile)" Targets="ContentFilesProjectOutputGroup">
       <Output TaskParameter="TargetOutputs" ItemName="DeploymentProjectContentOutput" />
@@ -114,7 +127,8 @@
   </PropertyGroup>
 
   <Target Name="StageArtifacts" DependsOnTargets="$(StageArtifactsDependsOn)" AfterTargets="$(StageArtifactsAfterTargets)"/>
-
+	<!-- Nettoyage -->
+	<!-- Supprime les répertoires intermédiaires et binaires avant une nouvelle construction. -->
   <!-- Custom target to clean up local deployment staging files -->
   <Target Name="DeleteBinObjFolders" BeforeTargets="Clean">
     <RemoveDir Directories="$(OutputPath)" />  

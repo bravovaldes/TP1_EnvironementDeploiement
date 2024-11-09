@@ -54,6 +54,9 @@ $OptionalParameters = New-Object -TypeName Hashtable
 $TemplateFile = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $TemplateFile))
 $TemplateParametersFile = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $TemplateParametersFile))
 
+
+# Gestion des artefacts à uploader dans un compte de stockage Azure
+# Si demandé, télécharge les artefacts locaux dans un compte de stockage Azure pour être utilisés par le template.
 if ($UploadArtifacts) {
     Write-Host "Uploading artifacts..."
 
