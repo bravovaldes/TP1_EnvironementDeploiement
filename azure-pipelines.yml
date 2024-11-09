@@ -12,18 +12,14 @@ trigger:
 # Définit le pool d'agents à utiliser pour exécuter le pipeline.
 pool:  "default"
 
-# Variables
-# Déclare une variable qui sera utilisée pour contenir le contenu encodé en base64 du fichier cloud-init.
+
 variables:
 - name: CloudInitContent
 
   
 
-# Étapes du pipeline
-steps:
 
-# Étape 1 : Encodage du fichier Cloud-init
-# Lit le contenu du fichier `Cloud-init.txt`, l'encode en base64, et stocke le résultat dans une variable de pipeline.
+steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -35,8 +31,6 @@ steps:
         Write-Host "##vso[task.setvariable variable=CloudInitContent;]$encodedContent"
 
 
-# Étape 2 : Déploiement d'un Key Vault
-# Utilise un fichier de template ARM pour créer ou mettre à jour un groupe de ressources avec un Azure Key Vault.
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
@@ -52,8 +46,6 @@ steps:
     deploymentMode: 'Incremental'
     deploymentOutputs: 'KeyVaultDeployment'
 
-# Étape 3 : Lecture des secrets du Key Vault
-# Récupère un secret spécifique (AdminPass) depuis le Key Vault déployé dans l'étape précédente.
 - task: AzureKeyVault@2
   name: AzureKey
   inputs:
@@ -61,16 +53,9 @@ steps:
     KeyVaultName: 'TPDeploiement'
     SecretsFilter: 'AdminPass'
     RunAsPreJob: false
-
-# Étape 4 : Vérification du contenu encodé
-# Affiche la valeur encodée en base64 du contenu cloud-init pour vérification.
 - script: |
     echo $(CloudInitContent)
-
-
-# Étape 5 : Validation du déploiement ARM avec Cloud-init
-# Valide le fichier ARM avec les paramètres fournis, notamment les données customData et le mot de passe admin récupéré.
-- task: AzureResourceManagerTemplateDeployment@3   
+    
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
@@ -84,9 +69,7 @@ steps:
     csmParametersFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
     overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminPass)'
     deploymentMode: 'Validation'
- 
-# Étape 6 : Déploiement final avec Cloud-init et paramètres
-# Déploie le fichier ARM avec les paramètres finalisés (Cloud-init encodé et mot de passe admin).
+    
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
