@@ -24,32 +24,32 @@
       "value": "d7ff8c91-df8c-4499-ad6b-a775c5e24ecb" // ID du locataire Azure AD associé au Key Vault.
     },
     "enabledForDeployment": {
-      "value": true
+      "value": true // Permettre aux ressources Azure (comme les VMs) d'accéder au Key Vault.
     },
     "enabledForTemplateDeployment": {
-      "value": true
+      "value": true // Autoriser l'accès pour les déploiements via des templates ARM.
     },
     "enabledForDiskEncryption": {
-      "value": false
+      "value": false // Désactiver l'accès pour le chiffrement des disques.
     },
     "enableRbacAuthorization": {
-      "value": true
+      "value": true // Activer les autorisations basées sur les rôles (RBAC).
     },
     "publicNetworkAccess": {
-      "value": "Enabled"
+      "value": "Enabled" // Autoriser l'accès public au Key Vault.
     },
     "enableSoftDelete": {
-      "value": true
+      "value": true // Activer la suppression réversible des secrets.
     },
     "softDeleteRetentionInDays": {
-      "value": 7
+      "value": 7 // Durée de rétention pour la suppression réversible (en jours).
     },
     "networkAcls": {
       "value": {
-        "defaultAction": "allow",
-        "bypass": "AzureServices",
-        "ipRules": [],
-        "virtualNetworkRules": []
+        "defaultAction": "allow", // Action par défaut (autoriser le trafic).
+        "bypass": "AzureServices", // Permettre l'accès des services Azure.
+        "ipRules": [], // Pas de règles spécifiques pour les adresses IP
+        "virtualNetworkRules": [] // Pas de règles pour les réseaux virtuels
       }
     }
   }
