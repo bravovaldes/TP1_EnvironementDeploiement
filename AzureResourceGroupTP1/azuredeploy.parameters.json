@@ -25,6 +25,8 @@
         "10.0.0.0/16"
       ]
     },
+    // Sous-réseaux
+    // Spécifie les sous-réseaux à inclure dans le VNet.
     "subnets": {
       "value": [
         {
@@ -35,12 +37,21 @@
         }
       ]
     },
+
+    // Référence au VNet
+    // Identifiant unique du réseau virtuel existant.
     "virtualNetworkId": {
       "value": "/subscriptions/2ca40756-e319-40dd-84a5-ca8148b8ed59/resourceGroups/TP1_Deploiement/providers/Microsoft.Network/virtualNetworks/TP1_Deploiement-vnet"
     },
+
+    // Nom du VNet
+    // Nom de l'objet réseau virtuel.
     "virtualNetworkName": {
       "value": "TP1_Deploiement-vnet"
     },
+
+    // Groupes de sécurité réseau (NSG)
+    // Définit les règles de sécurité réseau pour contrôler le trafic autorisé ou bloqué.
     "networkSecurityGroups": {
       "value": [
         {
@@ -64,6 +75,9 @@
         }
       ]
     },
+
+    // Configuration des interfaces réseau (NIC)
+    // Définit les propriétés des interfaces réseau utilisées par les machines virtuelles.
     "networkInterfaceConfigurations": {
       "value": [
         {
@@ -85,12 +99,22 @@
         }
       ]
     },
+
+    // Backend pool
+    // Nom du pool backend pour équilibrage de charge.
     "backendPoolName": {
       "value": "bepool"
     },
+
+    // Load balancer
+    // Définit les configurations pour l'équilibreur de charge.
     "loadBalancerName": {
       "value": "LoadBalTP1"
     },
+
+    "/" "Règles",
+    "d'équilibrage": null,
+    // Configure les ports, protocoles et règles pour l'équilibreur de charge.
     "loadbalancingRuleFrontEndPort": {
       "value": 80
     },
@@ -103,6 +127,9 @@
     "InboundNATRuleFrontEndPortRangeStart": {
       "value": 50000
     },
+
+    // Configuration des machines virtuelles (VM)
+    // Nom de la VM et du groupe d'échelle (Scale Set).
     "vmName": {
       "value": "VMTP1"
     },
@@ -159,6 +186,9 @@
     "vTPM": {
       "value": true
     },
+
+    // Surveillance et réparation automatique
+    // Configure les extensions de santé pour surveiller et réparer les VM.
     "healthExtensionProtocol": {
       "value": "http"
     },
