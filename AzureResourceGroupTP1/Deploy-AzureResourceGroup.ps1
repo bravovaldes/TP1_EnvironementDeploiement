@@ -1,5 +1,9 @@
 #Requires -Version 3.0
 
+
+# Déclaration des paramètres
+# Définit les paramètres du script pour personnaliser l'exécution.
+# Inclut des informations comme la localisation du groupe de ressources, le nom du fichier JSON de déploiement, et des options pour valider ou uploader des artefacts.
 Param(
     [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
     [string] $ResourceGroupName = 'AzureResourceGroupTP1',
@@ -13,6 +17,8 @@ Param(
     [switch] $ValidateOnly
 )
 
+# Initialisation et vérifications
+# Configure les variables globales et vérifie les prérequis (version de PowerShell et module Az).
 Set-Variable -Name DeploymentScriptVersion -Value "17.7.0" -Option Constant
 
 try {
@@ -41,10 +47,15 @@ function Format-ValidationOutput {
     return @($ValidationOutput | Where-Object { $_ -ne $null } | ForEach-Object { @('  ' * $Depth + ': ' + $_.Message) + @(Format-ValidationOutput @($_.Details) ($Depth + 1)) })
 }
 
+# Configuration des fichiers JSON
+# Prépare les chemins absolus pour les fichiers JSON utilisés dans le déploiement.
 $OptionalParameters = New-Object -TypeName Hashtable
 $TemplateFile = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $TemplateFile))
 $TemplateParametersFile = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $TemplateParametersFile))
 
+
+# Gestion des artefacts
+# Upload les artefacts dans un compte de stockage Azure, si demandé.
 if ($UploadArtifacts) {
     Write-Host "Uploading artifacts..."
 
@@ -113,6 +124,7 @@ if ($null -eq (Get-AzResourceGroup -Name $ResourceGroupName -Location $ResourceG
     New-AzResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -Verbose -Force -ErrorAction Stop
 }
 
+# Validation ou déploiement du template
 if ($ValidateOnly) {
     Write-Host "Validating..."
     $ErrorMessages = Format-ValidationOutput (Test-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName `
