@@ -3,13 +3,13 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-# DÈclencheur
-# SpÈcifie que le pipeline s'exÈcute automatiquement lorsqu'il y a un changement sur la branche "master".
+# D√©clencheur
+# Sp√©cifie que le pipeline s'ex√©cute automatiquement lorsqu'il y a un changement sur la branche "master".
 trigger:
 - master
 
 # Pool d'agents
-# DÈfinit le pool d'agents ‡ utiliser pour exÈcuter le pipeline.
+# D√©finit le pool d'agents √† utiliser pour ex√©cuter le pipeline.
 pool:  "default"
 
 
@@ -20,7 +20,7 @@ variables:
 
 
 steps:
-- task: PowerShell@2  # …tape 1 : Encodage du fichier Cloud-init
+- task: PowerShell@2  # √âtape 1 : Encodage du fichier Cloud-init
   inputs:
     targetType: 'inline'
     script: |
@@ -31,7 +31,8 @@ steps:
         Write-Host "##vso[task.setvariable variable=CloudInitContent;]$encodedContent"
 
 
-- task: AzureResourceManagerTemplateDeployment@3  # …tape 2 : DÈploiement d'un Key Vault
+- task: AzureResourceManagerTemplateDeployment@3  # √âtape 2 : D√©ploiement d'un Key Vault
+  displayName: D√©ploiement Azure KeyVAult
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
@@ -46,17 +47,20 @@ steps:
     deploymentMode: 'Incremental'
     deploymentOutputs: 'KeyVaultDeployment'
 
-- task: AzureKeyVault@2  # …tape 3 : Lecture des secrets du Key Vault
+- task: AzureKeyVault@2  # √âtape 3 : Lecture des secrets du Key Vault
   name: AzureKey
+  displayName: "R√©cup√©ration des secrets depuis le Key Vault"
   inputs:
     azureSubscription: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
     KeyVaultName: 'TPDeploiement'
     SecretsFilter: 'AdminPass'
     RunAsPreJob: false
-- script: |  # …tape 4 : VÈrification du contenu encodÈ
+- script: |  # √âtape 4 : V√©rification du contenu encod√©
     echo $(CloudInitContent)
+  displayName: "V√©rification du contenu encod√© de Cloud-init"
     
-- task: AzureResourceManagerTemplateDeployment@3  # …tape 5 : Validation du dÈploiement ARM avec Cloud-init
+- task: AzureResourceManagerTemplateDeployment@3  # √âtape 5 : Validation du d√©ploiement ARM avec Cloud-init
+  displayName: "Validation du d√©ploiement ARM avec Cloud-init"
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
@@ -70,7 +74,8 @@ steps:
     overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminPass)'
     deploymentMode: 'Validation'
     
-- task: AzureResourceManagerTemplateDeployment@3   # …tape 6 : DÈploiement final avec Cloud-init et paramËtres
+- task: AzureResourceManagerTemplateDeployment@3   # √âtape 6 : D√©ploiement final avec Cloud-init et param√®tres
+  displayName: "D√©ploiement final des ressources avec Cloud-init"
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'Azure subscription 1(1)(2ca40756-e319-40dd-84a5-ca8148b8ed59)'
