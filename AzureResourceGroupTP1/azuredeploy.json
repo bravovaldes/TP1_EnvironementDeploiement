@@ -1,6 +1,11 @@
 {
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+
+  // Paramètres
+  // Déclare les entrées dynamiques nécessaires au déploiement.
+  // Ces paramètres permettent de personnaliser la configuration des ressources,
+  // comme les noms, types, tailles, règles de sécurité, etc.
   "parameters": {
     "location": {
       "type": "string"
@@ -111,6 +116,10 @@
       "type": "string"
     }
   },
+
+  // Variables
+  // Contient des valeurs calculées ou constantes utilisées dans le déploiement.
+  // Par exemple, pour générer des noms ou des identifiants uniques.
   "variables": {
     "storageApiVersion": "2021-01-01",
     "networkApiVersion": "2020-11-01",
@@ -119,6 +128,16 @@
     "autoScaleResourceName": "[concat(substring(parameters('virtualMachineScaleSetName'), 0, min(length(parameters('virtualMachineScaleSetName')), 55)), 'autoscale')]",
     "vmssId": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSetName'))]"
   },
+
+  // Ressources
+  // Décrit toutes les ressources Azure qui doivent être créées par ce template.
+  // Chaque ressource est définie avec son type, ses propriétés, et ses dépendances éventuelles.
+  // Cela inclut :
+  // - Le réseau virtuel (VNet) et ses sous-réseaux.
+  // - Les groupes de sécurité réseau (NSG).
+  // - L'équilibreur de charge (Load Balancer).
+  // - Le groupe d'échelle de machines virtuelles (VM Scale Set).
+  // - Les règles d'autoscaling basées sur l'utilisation CPU.
   "resources": [
     {
       "name": "[parameters('virtualNetworkName')]",
@@ -428,6 +447,10 @@
       "zones": "[parameters('zone')]"
     }
   ],
+
+  // Sorties
+  // Permet de renvoyer des informations utiles après le déploiement.
+  // Exemple : ici, le nom de l'administrateur de la VM est retourné comme sortie.
   "outputs": {
     "adminUsername": {
       "type": "string",
