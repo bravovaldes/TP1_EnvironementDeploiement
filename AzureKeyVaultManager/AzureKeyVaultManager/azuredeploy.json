@@ -1,6 +1,11 @@
 {
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+
+  // Paramètres
+  // Contient les paramètres dynamiques du déploiement. Ces paramètres 
+  // permettent de personnaliser le template lors de l'exécution. 
+  // Par exemple : le nom du Key Vault, la région, ou les valeurs des secrets.
   "parameters": {
     "name": {
       "type": "string"
@@ -48,7 +53,16 @@
       "type": "securestring"
     }
   },
+
+  // Variables
+  // Permet de définir des constantes ou des valeurs calculées qui peuvent 
+  // être utilisées dans tout le template. Cette section est vide ici.
   "variables": {},
+
+  // Ressources
+  // Définit les ressources à déployer. Ici, un Key Vault et un secret associé.
+  // Les dépendances entre ressources sont également spécifiées pour garantir
+  // un ordre de création correct.
   "resources": [
     {
       "apiVersion": "2023-08-01-preview",
@@ -90,5 +104,9 @@
       }
     }
   ],
+
+  // Sorties (Outputs)
+  // Permet de renvoyer des informations ou des résultats après le déploiement.
+  // Ici, aucune donnée n'est configurée pour être retournée.
   "outputs": {}
 }
