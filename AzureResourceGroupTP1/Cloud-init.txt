@@ -42,34 +42,32 @@ write_files:
       var os = require('os');
       app.get('/', function (req, res) {
         res.send(`
-          <!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bonjour Environnement - TP1</title>
-  </head>
-  <body>
-    <h1>Bonjour VM!</h1>
-    <p>Ceci est une page dédiée au projet TP1 : Environnement et Déploiement des Applications Web</p>
+            <!DOCTYPE html>
+            <html lang="fr">
+                <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Bonjour Environnement - TP1</title>
+                </head>
+                <body>
+                <h1>Bonjour VM!</h1>
+                <p>Ceci est une page dédiée au projet TP1 : Environnement et Déploiement des Applications Web</p>
 
-    <div>
-      <h2>Contributeurs du projet</h2>
-      <ul>
-        <li>
-          <strong>Nom :</strong> Mezankou Valdes Bravo<br>
-          <strong>Matricule :</strong> MEZV14120400
-        </li>
-        <li>
-          <strong>Nom :</strong> Cheukam Tchakounte Prince Valtere<br>
-          <strong>Matricule :</strong> CHEP27070301
-        </li>
-      </ul>
-    </div>
-  </body>
-</html>
-
-
+                <div>
+                    <h2>Contributeurs du projet</h2>
+                    <ul>
+                    <li>
+                        <strong>Nom :</strong> Mezankou Valdes Bravo<br>
+                        <strong>Matricule :</strong> MEZV14120400
+                    </li>
+                    <li>
+                        <strong>Nom :</strong> Cheukam Tchakounte Prince Valtere<br>
+                        <strong>Matricule :</strong> CHEP27070301
+                    </li>
+                    </ul>
+                </div>
+                </body>
+            </html>
         `)
       })
       app.listen(3000, function () {
