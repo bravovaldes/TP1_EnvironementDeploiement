@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+
+	<!-- Propriétés globales -->
+	<!-- Définit les configurations principales du projet, comme Debug/Release,
+       le chemin de sortie pour les fichiers compilés, et les comportements spécifiques. -->
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -15,18 +20,24 @@
     <ProjectReferencesOutputPath Condition=" !HasTrailingSlash('$(ProjectReferencesOutputPath)') ">$(ProjectReferencesOutputPath)\</ProjectReferencesOutputPath>
     <StageArtifacts Condition=" '$(StageArtifacts)' == '' ">true</StageArtifacts>
   </PropertyGroup>
-
+	<!-- Propriétés supplémentaires -->
+	<!-- Ajoute des options spécifiques pour gérer des schémas ou des capacités
+       liées au projet de déploiement. -->
   <PropertyGroup>
     <DefineCommonItemSchemas>false</DefineCommonItemSchemas>
     <DefineCommonCapabilities>false</DefineCommonCapabilities>
   </PropertyGroup>
 
+	<!-- Extensions de projet -->
+	<!-- Indique que le projet supporte des capacités spécifiques, ici un projet de déploiement. -->
   <ProjectExtensions>
     <ProjectCapabilities>
       <DeploymentProject />
     </ProjectCapabilities>
   </ProjectExtensions>
-
+	
+	<!-- Définition des comportements des fichiers -->
+	<!-- Spécifie comment traiter les fichiers de contenu, références de projet, ou autres. -->
   <ItemDefinitionGroup>
     <Content>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
