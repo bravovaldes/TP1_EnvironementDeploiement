@@ -52,6 +52,8 @@ steps:
     deploymentMode: 'Incremental'
     deploymentOutputs: 'KeyVaultDeployment'
 
+# Étape 3 : Lecture des secrets du Key Vault
+# Récupère un secret spécifique (AdminPass) depuis le Key Vault déployé dans l'étape précédente.
 - task: AzureKeyVault@2
   name: AzureKey
   inputs:
@@ -59,9 +61,16 @@ steps:
     KeyVaultName: 'TPDeploiement'
     SecretsFilter: 'AdminPass'
     RunAsPreJob: false
+
+# Étape 4 : Vérification du contenu encodé
+# Affiche la valeur encodée en base64 du contenu cloud-init pour vérification.
 - script: |
     echo $(CloudInitContent)
-    
+
+
+# Étape 5 : Validation du déploiement ARM avec Cloud-init
+# Valide le fichier ARM avec les paramètres fournis, notamment les données customData et le mot de passe admin récupéré.
+- task: AzureResourceManagerTemplateDeployment@3   
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
@@ -75,7 +84,9 @@ steps:
     csmParametersFile: '$(Build.SourcesDirectory)\AzureResourceGroupTP1\azuredeploy.parameters.json'
     overrideParameters: '-customData $(CloudInitContent) -adminPassword $(AzureKey.AdminPass)'
     deploymentMode: 'Validation'
-    
+ 
+# Étape 6 : Déploiement final avec Cloud-init et paramètres
+# Déploie le fichier ARM avec les paramètres finalisés (Cloud-init encodé et mot de passe admin).
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
