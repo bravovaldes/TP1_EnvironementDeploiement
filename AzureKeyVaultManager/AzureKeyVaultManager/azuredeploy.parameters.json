@@ -1,21 +1,27 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
+
+  // Paramètres
+  // Section où sont définis les valeurs pour les paramètres requis par le template ARM.
+  // Ces paramètres permettent de configurer des propriétés comme :
+  // - Nom, emplacement, et configuration du Key Vault.
+  // - Autorisations, politiques d'accès et règles réseau.
   "parameters": {
     "name": {
-      "value": "keyab"
+      "value": "keyab" // Nom du Key Vault à déployer.
     },
     "location": {
-      "value": "eastus"
+      "value": "eastus" // Région Azure où le Key Vault sera déployé.
     },
     "sku": {
-      "value": "Standard"
+      "value": "Standard" // Type de SKU pour le Key Vault (Standard ou Premium).
     },
     "accessPolicies": {
-      "value": []
+      "value": [] // Liste des politiques d'accès configurées (aucune ici).
     },
     "tenant": {
-      "value": "d7ff8c91-df8c-4499-ad6b-a775c5e24ecb"
+      "value": "d7ff8c91-df8c-4499-ad6b-a775c5e24ecb" // ID du locataire Azure AD associé au Key Vault.
     },
     "enabledForDeployment": {
       "value": true
