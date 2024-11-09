@@ -1,5 +1,9 @@
 #Requires -Version 3.0
 
+
+# Initialisation et déclaration des paramètres
+# Cette section définit les paramètres nécessaires au script, comme le nom du groupe de ressources,
+# les fichiers de template et leurs paramètres, et des options supplémentaires comme le mode validation.
 Param(
     [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
     [string] $ResourceGroupName = 'AzureKeyVaultManager',
@@ -13,6 +17,8 @@ Param(
     [switch] $ValidateOnly
 )
 
+# Préparation de l'environnement PowerShell
+# Initialise les variables et vérifie que les prérequis sont respectés (comme PowerShell 7+ et le module Az).
 Set-Variable -Name DeploymentScriptVersion -Value "17.7.0" -Option Constant
 
 try {
@@ -24,6 +30,9 @@ try {
 } 
 catch {}
 
+
+# Vérifications des prérequis
+# Vérifie que PowerShell est dans une version suffisante et que le module Az est disponible.
 Write-Host "PowerShell $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch) from $PSHome"
 if ($PSVersionTable.PSVersion.Major -lt 7) {
     throw "PowerShell 7.0 or higher is recommended for this version of the deployment script, see https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows to install"
